@@ -1,31 +1,27 @@
 fn main() {
-    let city_name = "Rustville";
+    let city_name: &str = "Rustville";
 
     println!("The city of {}:\n", city_name);
 
-    print_population(1_324_578, 114_293, 108_097);
+    print_population(1_234_567, 123_456, 102_345);
 }
 
 fn print_population(adults: u64, kids: u32, buildings: u32) {
-    // 👉 TODO compute population by adding adults to kids
-    //
-    // 💡 TIP: Use the `as` keyword to convert between numeric types!
-    let population = 0;
+    let population: u32 = adults as u32 + kids;
 
-    // 👉 TODO compute buildings_per_person by dividing buildings by population
-    //
-    // 💡 TIP: To get a f64 answer here, both numerator and denominator must be f64 values
-    let buildings_per_person = 0.0;
+    let buildings_per_person: f32 = buildings as f32 / population as f32;
 
-    println!("    Population: {}", population);
-    println!("        Adults: {}", adults);
-    println!("        Kids: {}", kids);
-    println!("    Buildings: {}", buildings);
-    println!("    Buildings per person: [👉 TODO print buildings_per_person here]\n");
+    println!("Population: {}", population);
+    println!("    Adults: {}", adults);
+    println!("      Kids: {}", kids);
+    println!(" Buildings: {}", buildings);
+    println!(" Buildings per person: {}", buildings_per_person);
 
-    if buildings_per_person >= 1.0 {
-        println!("Everyone can have their own building!");
+    let output: &str = if buildings_per_person >= 1.0 {
+        "Everyone can have their own building!!!"
     } else {
-        println!("Buildings must be shared!");
-    }
+        "Get comfy you fuckin' plebs!"
+    };
+
+    println!("{}", output);
 }
