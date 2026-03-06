@@ -1,29 +1,27 @@
+type N = u64;
+type VecN = Vec<N>;
+
 fn main() {
-    let numbers = vec![2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
+    let numbers: VecN = vec![2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
 
-    let sum_of_nums = sum(numbers);
-    let product_of_nums = 0; // 👉 TODO call product() and put answer here
-    let average_of_nums = 0; // 👉 TODO call average() and put answer here
+    // Exercise using clone and returning tuple
+    let sum_of_nums: N = sum(numbers.clone());
+    let (product_of_nums, nums): (N, VecN) = product(numbers);
+    let Ret {
+        average_of_nums,
+        nums: nums2,
+    } = average(nums);
+    // Doesn't actually calc average of products as nums is just passthrough
+    let average_of_products: N = average(product(nums2).1).average_of_nums;
 
-    // 💡 TIP: You'll get a compile error. Here are two ways you can fix it:
-    //
-    // Option 1: Pass numbers.clone() some of the time.
-    //           (Experiment to see when it's needed!)
-    //
-    // Option 2: Change some of the functions to return a tuple
-    //           of (i64, Vec<i64>), using the `numbers` argument
-    //           as the Vec<i64> to return. With this approach,
-    //           you won't need to call .clone() at all!
-    //
-    // Give both options a try!
-
-    println!("Sum of these numbers: {}", sum_of_nums);
-    println!("Product of these numbers: {}", product_of_nums);
-    println!("Average of these numbers: {}", average_of_nums);
+    println!("Sum of these numbers: {sum_of_nums}");
+    println!("Product of these numbers: {product_of_nums}");
+    println!("Average of these numbers: {average_of_nums}");
+    println!("Average of nums post product: {average_of_products}");
 }
 
-fn sum(numbers: Vec<i64>) -> i64 {
-    let mut total = 0;
+fn sum(numbers: VecN) -> N {
+    let mut total: N = 0;
 
     for num in numbers.iter() {
         total += num;
@@ -32,18 +30,26 @@ fn sum(numbers: Vec<i64>) -> i64 {
     total
 }
 
-fn product(numbers: Vec<i64>) -> i64 {
+fn product(numbers: VecN) -> (N, VecN) {
     let mut total = 1;
 
     for num in numbers.iter() {
-        total *= num;
+        total *= num
     }
 
-    total
+    (total, numbers)
 }
 
-fn average(numbers: Vec<i64>) -> i64 {
-    let length = numbers.len() as i64;
+struct Ret {
+    average_of_nums: N,
+    nums: VecN,
+}
 
-    sum(numbers) / length
+fn average(numbers: VecN) -> Ret {
+    let length = numbers.len() as N;
+
+    Ret {
+        average_of_nums: sum(numbers.clone()) / length,
+        nums: numbers,
+    }
 }

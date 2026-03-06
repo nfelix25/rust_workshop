@@ -5,16 +5,16 @@ fn main() {
     // here, without using .clone() or changing what those functions return.
     //
     // 💡 TIP: You can do this by accepting a slice type - e.g. &[i64]
-    let sum_of_nums = 0;
-    let product_of_nums = 0;
-    let average_of_nums = 0;
+    let sum_of_nums = sum(&numbers);
+    let product_of_nums = product(&numbers);
+    let average_of_nums = average(&numbers);
 
     println!("Sum of these numbers: {}", sum_of_nums);
     println!("Product of these numbers: {}", product_of_nums);
     println!("Average of these numbers: {}", average_of_nums);
 
     let other_numbers = vec![1, 2, 3, 4, 5, 6];
-    let (slice1, slice2) = first_three(numbers, other_numbers);
+    let (slice1, slice2) = first_three(&numbers, &other_numbers);
 
     println!("The first three elements in `slice1` are:");
 
@@ -29,7 +29,7 @@ fn main() {
     }
 }
 
-fn sum(numbers: Vec<i64>) -> i64 {
+fn sum(numbers: &[i64]) -> i64 {
     let mut total = 0;
 
     for num in numbers.iter() {
@@ -39,7 +39,7 @@ fn sum(numbers: Vec<i64>) -> i64 {
     total
 }
 
-fn product(numbers: Vec<i64>) -> i64 {
+fn product(numbers: &[i64]) -> i64 {
     let mut total = 1;
 
     for num in numbers.iter() {
@@ -49,13 +49,14 @@ fn product(numbers: Vec<i64>) -> i64 {
     total
 }
 
-fn average(numbers: Vec<i64>) -> i64 {
+fn average(numbers: &[i64]) -> i64 {
     let length = numbers.len() as i64;
 
     sum(numbers) / length
 }
 
-fn first_three(numbers1: Vec<i64>, numbers2: Vec<i64>) -> (Vec<i64>, Vec<i64>) {
+// The lifetime annotations here are needed because there are two arguments, uf there was only one then we could have elided the lifetime annotations. The lifetime annotations are needed to tell Rust that the returned slices will live at least as long as the input slices.
+fn first_three<'a, 'b>(numbers1: &'a [i64], numbers2: &'b [i64]) -> (&'a [i64], &'b [i64]) {
     // 👉 TODO Return two slices, one containing the first 3 elements in
     //    numbers1, and the other containing the first 3 elements in numbers2.
     //
@@ -76,5 +77,6 @@ fn first_three(numbers1: Vec<i64>, numbers2: Vec<i64>) -> (Vec<i64>, Vec<i64>) {
     //        fn first_three<'a, 'b>
     //
     //        fn first_three<'a, 'b, 'c>
-    (numbers1, numbers2)
+
+    (&numbers1[0..3], &numbers2[0..3])
 }
