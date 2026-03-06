@@ -61,7 +61,7 @@ fn average(numbers: &[i64]) -> i64 {
     sum(numbers, numbers) / length
 }
 
-// The lifetime annotations here are needed because there are two arguments, uf there was only one then we could have elided the lifetime annotations. The lifetime annotations are needed to tell Rust that the returned slices will live at least as long as the input slices.
+// The lifetime annotations here are needed because there are two arguments, if there was only one then we could have elided the lifetime annotations. The lifetime annotations are needed to tell Rust that the returned slices will live at least as long as the input args in main.
 fn first_three<'a, 'b>(numbers1: &'a [i64], numbers2: &'b [i64]) -> (&'a [i64], &'b [i64]) {
     // 👉 TODO Return two slices, one containing the first 3 elements in
     //    numbers1, and the other containing the first 3 elements in numbers2.
