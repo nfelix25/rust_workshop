@@ -1,11 +1,9 @@
 fn main() {
     let numbers = vec![2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
 
-    // 👉 TODO call sum(), product(), and average() to replace the `= 0` values
-    // here, without using .clone() or changing what those functions return.
-    //
-    // 💡 TIP: You can do this by accepting a slice type - e.g. &[i64]
-    let sum_of_nums = sum(&numbers);
+    // This call does not need a lifetime annotation because even though there are two references it does not return any references, it returns an i64 which is a copy type and there is no lifetime ambiguity
+    let sum_of_nums = sum(&numbers, &numbers);
+
     let product_of_nums = product(&numbers);
     let average_of_nums = average(&numbers);
 
@@ -33,10 +31,14 @@ fn main() {
     }
 }
 
-fn sum(numbers: &[i64]) -> i64 {
+fn sum(numbers: &[i64], numbers2: &[i64]) -> i64 {
     let mut total = 0;
 
     for num in numbers.iter() {
+        total += num;
+    }
+
+    for num in numbers2.iter() {
         total += num;
     }
 
@@ -56,7 +58,7 @@ fn product(numbers: &[i64]) -> i64 {
 fn average(numbers: &[i64]) -> i64 {
     let length = numbers.len() as i64;
 
-    sum(numbers) / length
+    sum(numbers, numbers) / length
 }
 
 // The lifetime annotations here are needed because there are two arguments, uf there was only one then we could have elided the lifetime annotations. The lifetime annotations are needed to tell Rust that the returned slices will live at least as long as the input slices.
