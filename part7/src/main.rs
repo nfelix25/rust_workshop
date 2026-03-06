@@ -14,6 +14,10 @@ fn main() {
     println!("Average of these numbers: {}", average_of_nums);
 
     let other_numbers = vec![1, 2, 3, 4, 5, 6];
+
+    // Rust has **lifetime elision** rules that let you omit annotations when the compiler can figure it out. The key rule is:
+
+    // > If there's exactly **one** input reference, all output references get that same lifetime automatically.
     let (slice1, slice2) = first_three(&numbers, &other_numbers);
 
     println!("The first three elements in `slice1` are:");
